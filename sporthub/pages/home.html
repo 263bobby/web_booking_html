@@ -1,0 +1,94 @@
+<!-- pages/home.html -->
+<!-- Partial HTML — Router inject vào #app, không có html/head/body -->
+
+<div class="page-wrapper" data-page="home">
+
+  <!-- ── Hero Section ── -->
+  <section class="hero" aria-label="Giới thiệu SportHub">
+    <div class="hero__bg-pattern" aria-hidden="true"></div>
+    <div class="hero__inner">
+
+      <div class="hero__badge" aria-hidden="true">
+        ⚡ Đặt sân nhanh chóng · Giá tốt nhất
+      </div>
+
+      <h1 class="hero__title">
+        Đặt sân thể thao<br>
+        <em class="hero__title-accent">dễ dàng</em> nhất Việt Nam
+      </h1>
+
+      <p class="hero__subtitle">
+        Tìm và đặt sân Pickleball, Cầu lông, Tennis... gần bạn trong 60 giây.
+        500+ sân trên toàn TP.HCM.
+      </p>
+
+      <div class="hero__ctas">
+        <button class="btn btn--accent" id="hero-find-btn" aria-label="Tìm sân ngay">
+          🔍 Tìm sân ngay
+        </button>
+        <button class="btn btn--outline-white" id="hero-history-btn" aria-label="Xem lịch sử đặt sân">
+          📋 Lịch sử đặt sân
+        </button>
+      </div>
+
+      <!-- Stats row -->
+      <div class="hero__stats" role="list" aria-label="Thống kê SportHub">
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num" aria-label="500 cộng sân đã đăng ký">500+</div>
+          <div class="hero__stat-lbl">Sân đã đăng ký</div>
+        </div>
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num" aria-label="50 nghìn cộng người dùng">50K+</div>
+          <div class="hero__stat-lbl">Người dùng</div>
+        </div>
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num" aria-label="120 nghìn cộng lượt đặt mỗi tháng">120K+</div>
+          <div class="hero__stat-lbl">Lượt đặt / tháng</div>
+        </div>
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num" aria-label="98 phần trăm đánh giá 5 sao">98%</div>
+          <div class="hero__stat-lbl">Đánh giá 5 sao</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Search + Sport Filter Bar ── -->
+  <div class="search-bar" role="search">
+    <div class="search-bar__inner">
+
+      <!-- Search input -->
+      <div class="search-bar__input-wrap">
+        <div class="input-search">
+          <span class="input-search__icon" aria-hidden="true">🔍</span>
+          <input type="search" id="search-input" class="input-search__field" placeholder="Tìm theo tên sân, quận..."
+            aria-label="Tìm kiếm sân thể thao" autocomplete="off" />
+        </div>
+      </div>
+
+      <!-- Sport filter pills — SportFilter component mount vào đây -->
+      <div id="sport-filter-root" aria-label="Lọc theo môn thể thao"></div>
+
+    </div>
+  </div>
+
+  <!-- ── Courts Grid Section ── -->
+  <section class="courts-section" aria-label="Danh sách sân thể thao">
+
+    <div class="section-header">
+      <h2 class="section-title">🏟 Sân nổi bật</h2>
+      <span class="section-subtitle" id="courts-count" aria-live="polite"></span>
+    </div>
+
+    <!-- CourtCard components được render vào đây bởi home.js -->
+    <div class="courts-grid" id="courts-grid" role="list" aria-label="Lưới sân thể thao" aria-live="polite"></div>
+
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <strong>SportHub</strong> — Nền tảng đặt sân thể thao số 1 Việt Nam · © 2025
+  </footer>
+
+</div>

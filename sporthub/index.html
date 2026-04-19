@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="SportHub — Đặt sân thể thao dễ dàng nhất Việt Nam. 500+ sân Pickleball, Cầu lông, Tennis tại TP.HCM." />
+  <title>SportHub — Đặt sân thể thao</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Stylesheets — thứ tự quan trọng: variables → main → components -->
+  <link rel="stylesheet" href="styles/variables.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+</head>
+
+<body>
+
+  <!--
+    App Shell Layout:
+    ┌─────────────────────┐
+    │  #navbar-root       │  ← Navbar component mount point
+    ├─────────────────────┤
+    │  #app               │  ← Router inject page HTML vào đây
+    ├─────────────────────┤
+    │  #modal-root        │  ← Modal component mount point
+    │  #toast-root        │  ← Toast component mount point
+    └─────────────────────┘
+  -->
+
+  <header id="navbar-root" role="banner"></header>
+
+  <main id="app" class="app-shell" aria-live="polite" aria-label="Nội dung trang"></main>
+
+  <!-- Portal roots — component tự mount vào đây, không phụ thuộc page nào -->
+  <div id="modal-root" role="dialog" aria-modal="true" aria-hidden="true"></div>
+  <div id="toast-root" role="status" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- Bootstrap toàn bộ app — type="module" bật ES modules, defer tự động -->
+  <script type="module" src="scripts/main.js"></script>
+
+</body>
+
+</html>
