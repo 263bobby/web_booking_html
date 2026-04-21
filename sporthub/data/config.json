@@ -1,0 +1,31 @@
+{
+    "brand": "SportHub Ha Noi",
+    "city": "Ha Noi",
+    "sports": [
+        "Bong da",
+        "Cau long",
+        "Tennis",
+        "Bong ro",
+        "Pickleball"
+    ],
+    "districts": [
+        "Ba Dinh",
+        "Cau Giay",
+        "Dong Da",
+        "Hai Ba Trung",
+        "Hoan Kiem",
+        "Hoang Mai",
+        "Nam Tu Liem",
+        "Thanh Xuan",
+        "Tay Ho"
+    ],
+    "timeSlots": [
+        "05:00",
+        "07:00",
+        "09:00",
+        "15:00",
+        "17:00",
+        "19:00",
+        "21:00"
+    ]
+}

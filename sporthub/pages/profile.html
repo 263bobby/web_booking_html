@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportHub Ha Noi - Dat san</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+
+<body data-page="profile">
+    <header id="app-nav"></header>
+    <main class="container section profile-layout">
+        <section class="panel reveal-up" style="padding:20px;">
+            <h2>Thong tin nguoi dat</h2>
+            <form id="bookingForm" class="form-grid">
+                <input id="fullName" placeholder="Ho va ten">
+                <input id="phone" placeholder="So dien thoai">
+                <input id="email" type="email" placeholder="Email">
+                <textarea id="note" rows="4" placeholder="Ghi chu"></textarea>
+                <div class="error" id="formError"></div>
+                <button class="btn btn--primary" type="submit">Xac nhan va dat san</button>
+            </form>
+        </section>
+        <aside class="panel reveal-up" style="padding:20px;">
+            <h3>Tom tat don dat</h3>
+            <div id="bookingInfo"></div>
+        </aside>
+    </main>
+    <footer id="app-footer"></footer>
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+
+</html>
