@@ -3,9 +3,37 @@ import { renderFooter } from "../components/Footer.js";
 import { renderCourtCard } from "../components/CourtCard.js";
 import { showToast } from "../components/Toast.js";
 import { getCurrentPage, goToProfile } from "./router.js";
-import { getBooking, saveBooking } from "./store.js";
+import { getBooking, saveBooking, saveToHistory, getHistory } from "./store.js";
+import { 
+    renderHistoryStats, 
+    renderHistoryFilters, 
+    createBookingHistoryCard, 
+    renderEmptyState 
+} from "../components/History.js";
+import { renderModal, showModal, hideModal } from "../components/Modal.js";
 
 let selectedCourt = null;
+
+function renderSkeletonCards(container, count = 6) {
+    if (!container) return;
+    const skeletonHtml = Array(count).fill(0).map(() => `
+        <div class="court-card reveal-up">
+            <div class="skeleton" style="height: 200px; border-radius: 12px 12px 0 0;"></div>
+            <div class="p-4 space-y-3">
+                <div class="skeleton" style="height: 24px; width: 70%;"></div>
+                <div class="skeleton" style="height: 16px; width: 40%;"></div>
+                <div class="flex justify-between items-center mt-4">
+                    <div class="skeleton" style="height: 20px; width: 30%;"></div>
+                    <div class="skeleton" style="height: 36px; width: 40%; border-radius: 20px;"></div>
+                </div>
+            </div>
+        </div>
+    `).join("");
+    container.innerHTML = skeletonHtml;
+}
+
+let map = null;
+let markersLayer = null;
 
 async function loadData() {
     const [configRes, courtsRes] = await Promise.all([
@@ -31,7 +59,6 @@ function setupFooter() {
     if (!host) return;
     host.innerHTML = renderFooter();
 }
-
 
 function initHome(config, courts) {
     const courtsContainer = document.getElementById("featuredCourts");
@@ -110,6 +137,22 @@ function initHome(config, courts) {
             setTimeout(typeEffect, typeSpeed);
         }
         setTimeout(typeEffect, 1000);
+    }
+
+    const searchBtn = document.getElementById("heroSearchBtn");
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener("click", () => {
+            const query = searchInput.value.trim();
+            if (query) {
+                window.location.href = `./search.html?q=${encodeURIComponent(query)}`;
+            } else {
+                window.location.href = `./search.html`;
+            }
+        });
+        // Enter key support
+        searchInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") searchBtn.click();
+        });
     }
 
     bindRevealAnimations();
@@ -420,7 +463,6 @@ function initBooking(config, courts) {
     }
 
     document.getElementById("continueBooking").addEventListener("click", continueFlow);
-    document.getElementById("bottomConfirm").addEventListener("click", continueFlow);
 
     starRating?.addEventListener("click", (e) => {
         const button = e.target.closest(".star-btn");
@@ -505,34 +547,315 @@ function initBooking(config, courts) {
 
 function initProfile() {
     const booking = getBooking();
-    const box = document.getElementById("bookingInfo");
+    const activeContainer = document.getElementById("activeBookingContainer");
+    const historySection = document.getElementById("historySection");
+    
+    // 1. Handle Active Booking
     if (booking) {
+        activeContainer.classList.remove("hidden");
+        const box = document.getElementById("bookingInfo");
         const sportLabel = booking.court.sports ? booking.court.sports.join(', ') : (booking.court.sport || 'Thể thao');
         const price = booking.court.priceFrom || booking.court.pricePerHour || 0;
+        
         box.innerHTML = `
-      <h4>${booking.court.name}</h4>
-      <p>${booking.court.district} - ${sportLabel}</p>
-      <p>Khung giờ: <strong>${booking.slot}</strong></p>
-      <p>Giá: <strong>${price.toLocaleString("vi-VN")}đ/giờ</strong></p>
-    `;
+            <div class="bg-white p-4 rounded-xl border border-emerald-100 shadow-sm">
+                <h4 class="font-bold text-emerald-900">${booking.court.name}</h4>
+                <p class="text-sm text-emerald-700">📍 ${booking.court.district} - ${sportLabel}</p>
+                <div class="mt-3 pt-3 border-top border-emerald-100 space-y-2">
+                    <p class="text-sm flex justify-between"><span>Khung giờ:</span> <strong>${booking.slot}</strong></p>
+                    <p class="text-sm flex justify-between"><span>Ngày:</span> <strong>${booking.date}</strong></p>
+                    <p class="text-sm flex justify-between"><span>Giá:</span> <strong>${price.toLocaleString("vi-VN")}đ/giờ</strong></p>
+                </div>
+            </div>
+        `;
     } else {
-        box.innerHTML = "<p>Bạn chưa chọn sân. Vui lòng quay lại trang tìm sân.</p>";
+        activeContainer.classList.add("hidden");
     }
+
+    // 2. Handle History
+    const statsContainer = document.getElementById("historyStatsContainer");
+    const filtersContainer = document.getElementById("historyFiltersContainer");
+    const historyList = document.getElementById("historyList");
+
+    // Real Data from Store
+    const realHistory = getHistory();
+    // Mock Data
+    const mockHistory = [
+        {
+            id: "m1",
+            courtName: "Sân Pickleball Cầu Giấy",
+            sport: "Pickleball",
+            address: "Số 1, Duy Tân, Cầu Giấy, Hà Nội",
+            time: "18:00 - 19:30",
+            date: "20/04/2026",
+            totalAmount: 220000,
+            status: "completed"
+        },
+        {
+            id: "m2",
+            courtName: "Sân Cầu lông Đống Đa",
+            sport: "Cầu lông",
+            address: "102 Trường Chinh, Đống Đa, Hà Nội",
+            time: "19:00 - 21:00",
+            date: "18/04/2026",
+            totalAmount: 160000,
+            status: "confirmed"
+        },
+        {
+            id: "m3",
+            courtName: "Sân Tennis Ba Đình",
+            sport: "Tennis",
+            address: "20 Phan Đình Phùng, Ba Đình, Hà Nội",
+            time: "06:00 - 08:00",
+            date: "22/04/2026",
+            totalAmount: 450000,
+            status: "pending"
+        },
+        {
+            id: "m4",
+            courtName: "Sân Bóng đá Mini Thanh Xuân",
+            sport: "Bóng đá",
+            address: "Khuất Duy Tiến, Thanh Xuân, Hà Nội",
+            time: "20:00 - 21:30",
+            date: "15/04/2026",
+            totalAmount: 600000,
+            status: "cancelled"
+        }
+    ];
+
+    // Combine real and mock for a better look
+    const fullHistory = [...realHistory, ...mockHistory];
+
+    function calculateStats(data) {
+        return {
+            total: data.length,
+            completed: data.filter(i => i.status === "completed").length,
+            cancelled: data.filter(i => i.status === "cancelled").length
+        };
+    }
+
+    if (statsContainer) statsContainer.innerHTML = renderHistoryStats(calculateStats(fullHistory));
+    if (filtersContainer) filtersContainer.innerHTML = renderHistoryFilters();
+
+    function renderHistory(data) {
+        if (!historyList) return;
+        if (data.length > 0) {
+            historyList.innerHTML = data.map(createBookingHistoryCard).join("");
+        } else {
+            historyList.innerHTML = renderEmptyState();
+        }
+        bindRevealAnimations();
+    }
+
+    function filterHistory() {
+        const keyword = document.getElementById("historySearchInput")?.value.toLowerCase() || "";
+        const sport = document.getElementById("historySportFilter")?.value || "";
+        const status = document.getElementById("historyStatusFilter")?.value || "";
+        const time = document.getElementById("historyTimeFilter")?.value || "all";
+
+        const filtered = fullHistory.filter(item => {
+            if (keyword && !item.courtName.toLowerCase().includes(keyword)) return false;
+            if (sport && item.sport !== sport) return false;
+            if (status && item.status !== status) return false;
+            return true;
+        });
+
+        renderHistory(filtered);
+        
+        // Update stats based on filtered results
+        const stats = calculateStats(filtered);
+        const totalEl = document.getElementById("statTotal");
+        const completedEl = document.getElementById("statCompleted");
+        const cancelledEl = document.getElementById("statCancelled");
+        if (totalEl) totalEl.textContent = stats.total;
+        if (completedEl) completedEl.textContent = stats.completed;
+        if (cancelledEl) cancelledEl.textContent = stats.cancelled;
+    }
+
+    // Initial render
+    renderHistory(fullHistory);
+
+    // Event listeners for filters
+    const searchInp = document.getElementById("historySearchInput");
+    const sportFlt = document.getElementById("historySportFilter");
+    const statusFlt = document.getElementById("historyStatusFilter");
+    const timeFlt = document.getElementById("historyTimeFilter");
+    const clearBtn = document.getElementById("clearHistoryFilters");
+
+    searchInp?.addEventListener("input", filterHistory);
+    sportFlt?.addEventListener("change", filterHistory);
+    statusFlt?.addEventListener("change", filterHistory);
+    timeFlt?.addEventListener("change", filterHistory);
+
+    clearBtn?.addEventListener("click", () => {
+        if (searchInp) searchInp.value = "";
+        if (sportFlt) sportFlt.value = "";
+        if (statusFlt) statusFlt.value = "";
+        if (timeFlt) timeFlt.value = "all";
+        renderHistory(fullHistory);
+        
+        // Reset stats
+        const stats = calculateStats(fullHistory);
+        if (document.getElementById("statTotal")) document.getElementById("statTotal").textContent = stats.total;
+        if (document.getElementById("statCompleted")) document.getElementById("statCompleted").textContent = stats.completed;
+        if (document.getElementById("statCancelled")) document.getElementById("statCancelled").textContent = stats.cancelled;
+    });
+
+    // View Details Logic
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".js-view-detail");
+        if (!btn) return;
+
+        const bookingId = btn.dataset.id;
+        const booking = fullHistory.find(b => b.id === bookingId);
+        if (!booking) return;
+
+        const modalHtml = renderModal(
+            "Chi tiết đơn đặt sân",
+            `
+            <div class="space-y-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900">${booking.courtName}</h4>
+                        <p class="text-sm text-gray-500">${booking.address}</p>
+                    </div>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">${booking.status.toUpperCase()}</span>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl">
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase font-bold">Môn thể thao</p>
+                        <p class="font-medium">${booking.sport}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase font-bold">Ngày đặt</p>
+                        <p class="font-medium">${booking.date}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase font-bold">Khung giờ</p>
+                        <p class="font-medium">${booking.time}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase font-bold">Mã đơn hàng</p>
+                        <p class="font-medium">#${booking.id}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-xs text-gray-500 uppercase font-bold mb-2">Thanh toán</p>
+                    <div class="flex justify-between items-center py-2 border-b border-dashed">
+                        <span class="text-gray-600">Giá thuê sân</span>
+                        <span class="font-bold">${booking.totalAmount.toLocaleString('vi-VN')}đ</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-dashed">
+                        <span class="text-gray-600">Phí dịch vụ</span>
+                        <span class="font-bold">0đ</span>
+                    </div>
+                    <div class="flex justify-between items-center py-3">
+                        <span class="text-gray-900 font-bold">Tổng cộng</span>
+                        <span class="text-xl font-bold text-emerald-600">${booking.totalAmount.toLocaleString('vi-VN')}đ</span>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 p-3 rounded-lg border border-amber-100">
+                    <p class="text-xs text-amber-800 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                        Vui lòng đến sân trước 15 phút để làm thủ tục nhận sân.
+                    </p>
+                </div>
+            </div>
+            `,
+            `
+            <button class="px-6 py-2 rounded-lg font-bold bg-gray-100 text-gray-700 hover:bg-gray-200" id="modalCloseBtn">Đóng</button>
+            <button class="px-6 py-2 rounded-lg font-bold bg-emerald-500 text-white hover:bg-emerald-600">Tải hóa đơn</button>
+            `
+        );
+
+        // Inject modal to body
+        let modalContainer = document.getElementById("modalContainer");
+        if (!modalContainer) {
+            modalContainer = document.createElement("div");
+            modalContainer.id = "modalContainer";
+            document.body.appendChild(modalContainer);
+        }
+        modalContainer.innerHTML = modalHtml;
+
+        showModal();
+
+        // Close logic
+        document.getElementById("closeModal")?.addEventListener("click", hideModal);
+        document.getElementById("modalCloseBtn")?.addEventListener("click", hideModal);
+        document.getElementById("appModal")?.addEventListener("click", (e) => {
+            if (e.target.id === "appModal") hideModal();
+        });
+    });
 
     const form = document.getElementById("bookingForm");
     const err = document.getElementById("formError");
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const fullName = document.getElementById("fullName").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        if (!fullName || !/^0\d{9}$/.test(phone)) {
-            err.textContent = "Vui lòng nhập họ tên và số điện thoại hợp lệ (10 số, bắt đầu bằng 0).";
-            return;
-        }
-        err.textContent = "";
-        showToast("Đặt sân thành công!");
-        form.reset();
-    });
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById("fullName").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+
+            if (!fullName || fullName.length < 2) {
+                err.textContent = "Vui lòng nhập họ tên hợp lệ.";
+                return;
+            }
+            if (!/^0\d{9}$/.test(phone)) {
+                err.textContent = "Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).";
+                return;
+            }
+            err.textContent = "";
+            
+            // Add to history
+            const sportLabel = booking.court.sports ? booking.court.sports.join(', ') : (booking.court.sport || 'Thể thao');
+            const price = booking.court.priceFrom || booking.court.pricePerHour || 0;
+            const totalHours = booking.slot.split(',').length;
+
+            saveToHistory({
+                id: "b" + Date.now(),
+                courtName: booking.court.name,
+                sport: sportLabel,
+                address: booking.court.district,
+                time: booking.slot,
+                date: booking.date,
+                totalAmount: price * totalHours,
+                status: "confirmed"
+            });
+
+            // Show Success Modal with Lottie
+            const successContent = `
+                <div class="text-center py-6">
+                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_rc67lj7p.json" background="transparent" speed="1" style="width: 150px; height: 150px; margin: 0 auto;" autoplay></lottie-player>
+                    <h3 class="text-2xl font-bold text-gray-900 mt-4">Đặt sân thành công!</h3>
+                    <p class="text-gray-500 mt-2">Thông tin đơn hàng đã được lưu vào lịch sử của bạn.</p>
+                </div>
+            `;
+            
+            const modalHtml = renderModal(
+                "Thông báo",
+                successContent,
+                `<button class="w-full bg-emerald-500 text-white py-3 rounded-xl font-bold" id="modalCloseBtn">Tuyệt vời!</button>`
+            );
+
+            let modalContainer = document.getElementById("modalContainer");
+            if (!modalContainer) {
+                modalContainer = document.createElement("div");
+                modalContainer.id = "modalContainer";
+                document.body.appendChild(modalContainer);
+            }
+            modalContainer.innerHTML = modalHtml;
+            showModal();
+
+            document.getElementById("modalCloseBtn")?.addEventListener("click", () => {
+                hideModal();
+                form.reset();
+                saveBooking(null);
+                initProfile();
+            });
+        });
+    }
     bindRevealAnimations();
 }
 
@@ -545,9 +868,52 @@ function initSearch(config, courts) {
     const resultsContainer = document.getElementById("searchResults");
     const countEl = document.getElementById("courtCount");
 
+    // Show Skeletons initially
+    renderSkeletonCards(resultsContainer);
+    if (countEl) countEl.textContent = "...";
+
+    // Initialize Map if it exists
+    if (document.getElementById("map") && !map) {
+        map = L.map('map').setView([21.0285, 105.8542], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        markersLayer = L.layerGroup().addTo(map);
+    }
+
+    // Artificial delay to show skeleton effect
+    setTimeout(() => {
+        render(courts);
+    }, 1000);
+
+    function updateMarkers(filteredData) {
+        if (!markersLayer) return;
+        markersLayer.clearLayers();
+        filteredData.forEach(court => {
+            // Mock coordinates
+            const lat = 21.0285 + (Math.random() - 0.5) * 0.1;
+            const lng = 105.8542 + (Math.random() - 0.5) * 0.1;
+            const marker = L.marker([lat, lng]);
+            marker.bindPopup(`
+                <div class="map-popup-card">
+                    <h4>${court.name}</h4>
+                    <p>📍 ${court.district}</p>
+                    <p class="font-bold text-emerald-600">${court.priceFrom.toLocaleString()}đ</p>
+                    <a href="./booking.html?id=${court.id}" class="text-xs text-blue-500 underline mt-1 block">Đặt ngay</a>
+                </div>
+            `);
+            markersLayer.addLayer(marker);
+        });
+    }
+
     function render(filteredCourts) {
-        resultsContainer.innerHTML = filteredCourts.length ? filteredCourts.map(renderCourtCard).join("") : '<div class="empty-state">Không tìm thấy sân phù hợp.</div>';
+        if (!filteredCourts.length) {
+            resultsContainer.innerHTML = '<div class="empty-state">Không tìm thấy sân phù hợp.</div>';
+        } else {
+            resultsContainer.innerHTML = filteredCourts.map(renderCourtCard).join("");
+        }
         countEl.textContent = filteredCourts.length;
+        updateMarkers(filteredCourts);
         bindRevealAnimations();
     }
 
@@ -596,7 +962,22 @@ function initSearch(config, courts) {
     });
 
     // Initial render
-    render(courts);
+    const urlParams = new URLSearchParams(window.location.search);
+    const qParam = urlParams.get('q');
+    const sportParam = urlParams.get('sport');
+
+    if (qParam) searchInput.value = qParam;
+    if (sportParam) {
+        sportFilters.forEach(cb => {
+            if (cb.value === sportParam) cb.checked = true;
+        });
+    }
+
+    if (qParam || sportParam) {
+        filterCourts();
+    } else {
+        render(courts);
+    }
 }
 
 function bindRevealAnimations() {

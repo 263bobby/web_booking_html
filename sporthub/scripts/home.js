@@ -141,7 +141,7 @@ function _attachEvents() {
   });
 }
 
-function _handleToggleFavorite(courtId) {
+async function _handleToggleFavorite(courtId) {
   const { favorites } = store.getState();
   const isFav = favorites.includes(courtId);
 
