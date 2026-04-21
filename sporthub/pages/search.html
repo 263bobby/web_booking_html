@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SportHub Ha Noi - Tìm sân</title>
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body data-page="search">
     <header id="app-nav"></header>
 
-    <main class="container search-page" style="margin-top: 40px; margin-bottom: 60px;">
+    <main class="container py-12">
         <div class="search-layout">
             <!-- Sidebar Filters -->
             <aside class="filter-sidebar">
@@ -81,9 +83,12 @@
             <div class="search-content">
                 <div class="search-content-header">
                     <h2 class="title" style="margin-bottom: 5px;">Danh sách sân</h2>
-                    <p class="subtitle" style="color: var(--text-muted); margin-bottom: 20px;">Tìm thấy <strong
+                    <p class="subtitle" style="color: var(--color-muted); margin-bottom: 20px;">Tìm thấy <strong
                             id="courtCount">0</strong> sân phù hợp</p>
                 </div>
+                
+                <div id="map"></div>
+
                 <div class="cards search-grid" id="searchResults">
                     <!-- Results injected here -->
                 </div>
