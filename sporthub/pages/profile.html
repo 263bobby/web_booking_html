@@ -6,26 +6,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SportHub Ha Noi - Dat san</title>
     <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        amber: {
+                            100: '#fef3c7',
+                            700: '#b45309',
+                        },
+                        rose: {
+                            100: '#ffe4e6',
+                            700: '#be123c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
 <body data-page="profile">
     <header id="app-nav"></header>
-    <main class="container section profile-layout">
-        <section class="panel reveal-up" style="padding:20px;">
-            <h2>Thong tin nguoi dat</h2>
-            <form id="bookingForm" class="form-grid">
-                <input id="fullName" placeholder="Ho va ten">
-                <input id="phone" placeholder="So dien thoai">
-                <input id="email" type="email" placeholder="Email">
-                <textarea id="note" rows="4" placeholder="Ghi chu"></textarea>
-                <div class="error" id="formError"></div>
-                <button class="btn btn--primary" type="submit">Xac nhan va dat san</button>
-            </form>
-        </section>
-        <aside class="panel reveal-up" style="padding:20px;">
-            <h3>Tom tat don dat</h3>
-            <div id="bookingInfo"></div>
-        </aside>
+    
+    <main class="container mx-auto px-4 py-8">
+        <!-- Section for active booking (if any) -->
+        <div id="activeBookingContainer" class="mb-12 hidden">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Đơn đặt sân hiện tại</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-bold mb-4">Thông tin người đặt</h3>
+                        <form id="bookingForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <input id="fullName" name="fullName" placeholder="Họ và tên" class="w-full rounded-xl border-gray-200 p-3" required>
+                            </div>
+                            <input id="phone" name="phone" type="tel" placeholder="Số điện thoại" class="w-full rounded-xl border-gray-200 p-3" required>
+                            <input id="email" name="email" type="email" placeholder="Email (không bắt buộc)" class="w-full rounded-xl border-gray-200 p-3">
+                            <div class="md:col-span-2">
+                                <textarea id="note" rows="3" placeholder="Ghi chú thêm..." class="w-full rounded-xl border-gray-200 p-3"></textarea>
+                            </div>
+                            <div class="error text-red-500 text-sm" id="formError"></div>
+                            <div class="md:col-span-2">
+                                <button class="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100" type="submit">
+                                    Xác nhận và đặt sân
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+                <aside>
+                    <section class="bg-emerald-50 rounded-2xl p-6 border border-emerald-100 sticky top-24">
+                        <h3 class="text-lg font-bold mb-4 text-emerald-900">Tóm tắt đơn đặt</h3>
+                        <div id="bookingInfo" class="space-y-4"></div>
+                    </section>
+                </aside>
+            </div>
+        </div>
+
+        <!-- Section for Booking History -->
+        <div id="historySection">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Lịch sử đặt sân</h2>
+            <div id="historyStatsContainer"></div>
+            <div id="historyFiltersContainer"></div>
+            <div id="historyList" class="space-y-4">
+                <!-- History cards will be injected here -->
+            </div>
+        </div>
     </main>
     <footer id="app-footer"></footer>
     <script type="module" src="../scripts/main.js"></script>
