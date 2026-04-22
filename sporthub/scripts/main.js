@@ -165,11 +165,51 @@ function initBooking(config, courts) {
     const foundCourt = courts.find(c => c.id === courtId);
     const court = foundCourt ? foundCourt : courts[0];
 
-    const gallery = [
-        court.image || "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1554068865-24cecd4e34f8?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1200&q=80"
+    // Gallery: 3 sport-specific photos per sport type
+    const sportType = (court.sports && court.sports[0]) || "Tennis";
+    const sportGalleries = {
+        "Pickleball": [
+            "https://images.unsplash.com/photo-1554068865-24cecd4e34f8?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Tennis": [
+            "https://images.unsplash.com/photo-1545809027-1b44e55b5a38?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Cầu lông": [
+            "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1659203073213-57c6b26524b6?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Bóng đá": [
+            "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Bóng rổ": [
+            "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Bóng chuyền": [
+            "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=1200&q=80"
+        ]
+    };
+    // Default fallback gallery (indoor sport facility)
+    const defaultGallery = [
+        "https://images.unsplash.com/photo-1545809027-1b44e55b5a38?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1200&q=80"
     ];
+    const galleryBase = sportGalleries[sportType] || defaultGallery;
+    // If the court has its own image, use it as the hero (slot 0), keep rest sport-specific
+    const gallery = court.image
+        ? [court.image, galleryBase[1], galleryBase[2]]
+        : galleryBase;
     let imageIndex = 0;
     let activeDate = 0;
     let activeSubCourt = 0;
