@@ -455,5 +455,123 @@
             "Cho thuê bóng/vợt"
         ],
         "image": "https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c21",
+        "name": "Elite Tennis Academy Hà Đông",
+        "district": "Quận Hà Đông",
+        "address": "78 Vũ Chí Thắng, Phường Yên Phòng, Quận Hà Đông",
+        "sports": [
+            "Tennis"
+        ],
+        "rating": 4.8,
+        "reviews": 267,
+        "openTime": "06:00",
+        "closeTime": "21:30",
+        "priceFrom": 140000,
+        "featured": true,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "Huấn luyện viên",
+            "Nước uống"
+        ],
+        "image": "https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c22",
+        "name": "Dragon Badminton Bắc Từ Liêm",
+        "district": "Quận Bắc Từ Liêm",
+        "address": "156 Đặng Thai Mai, Phường Thục Lâm, Quận Bắc Từ Liêm",
+        "sports": [
+            "Cầu lông",
+            "Bóng chuyền"
+        ],
+        "rating": 4.5,
+        "reviews": 189,
+        "openTime": "05:30",
+        "closeTime": "22:30",
+        "priceFrom": 75000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "WiFi",
+            "Điều hòa"
+        ],
+        "image": "https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c23",
+        "name": "Victory Football Field Long Biên",
+        "district": "Quận Long Biên",
+        "address": "299 Nguyễn Sỹ Sách, Phường Ngọc Thụy, Quận Long Biên",
+        "sports": [
+            "Bóng đá"
+        ],
+        "rating": 4.6,
+        "reviews": 378,
+        "openTime": "05:00",
+        "closeTime": "23:30",
+        "priceFrom": 170000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe rộng",
+            "Phòng thay đồ",
+            "Căng tin",
+            "Sân 7 người",
+            "Trọng tài"
+        ],
+        "image": "https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c24",
+        "name": "Golden Pickleball Club Hoàn Kiếm",
+        "district": "Quận Hoàn Kiếm",
+        "address": "98 Nhà Chung, Phường Cửa Nam, Quận Hoàn Kiếm",
+        "sports": [
+            "Pickleball"
+        ],
+        "rating": 4.9,
+        "reviews": 245,
+        "openTime": "06:30",
+        "closeTime": "21:00",
+        "priceFrom": 95000,
+        "featured": true,
+        "amenities": [
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "WiFi",
+            "Quán cafe",
+            "Camera an ninh"
+        ],
+        "image": "https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c25",
+        "name": "Prime Multi-Sport Hoàng Mai",
+        "district": "Quận Hoàng Mai",
+        "address": "45 Nguyễn Huy Tưởng, Phường Hoàng Văn Thụ, Quận Hoàng Mai",
+        "sports": [
+            "Tennis",
+            "Cầu lông",
+            "Bóng chuyền"
+        ],
+        "rating": 4.7,
+        "reviews": 312,
+        "openTime": "05:30",
+        "closeTime": "22:30",
+        "priceFrom": 85000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "WiFi",
+            "Huấn luyện viên"
+        ],
+        "image": "https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg?auto=compress&cs=tinysrgb&w=600"
     }
 ]
