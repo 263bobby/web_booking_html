@@ -926,9 +926,23 @@ function initSearch(config, courts) {
         markersLayer = L.layerGroup().addTo(map);
     }
 
-    // Artificial delay to show skeleton effect
+    // Apply URL params BEFORE the timeout so filters are set when skeleton resolves
+    const urlParams = new URLSearchParams(window.location.search);
+    const qParam = urlParams.get('q');
+    const sportParam = urlParams.get('sport');
+
+    if (qParam) searchInput.value = qParam;
+    if (sportParam) {
+        sportFilters.forEach(cb => {
+            if (cb.value === sportParam) cb.checked = true;
+        });
+    }
+
+    // Artificial delay to show skeleton effect.
+    // filterCourts() reads the checkboxes/inputs that are already set above,
+    // so URL param filters (e.g. ?sport=Tennis) are always respected.
     setTimeout(() => {
-        render(courts);
+        filterCourts();
     }, 1000);
 
     function updateMarkers(filteredData) {
@@ -1006,23 +1020,7 @@ function initSearch(config, courts) {
         filterCourts();
     });
 
-    // Initial render
-    const urlParams = new URLSearchParams(window.location.search);
-    const qParam = urlParams.get('q');
-    const sportParam = urlParams.get('sport');
-
-    if (qParam) searchInput.value = qParam;
-    if (sportParam) {
-        sportFilters.forEach(cb => {
-            if (cb.value === sportParam) cb.checked = true;
-        });
-    }
-
-    if (qParam || sportParam) {
-        filterCourts();
-    } else {
-        render(courts);
-    }
+    // URL params and initial render are handled by the setTimeout above.
 }
 
 function bindRevealAnimations() {

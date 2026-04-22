@@ -82,7 +82,6 @@ sporthub/
 ### 1. Yêu Cầu Hệ Thống
 - Máy tính với hệ điều hành: Windows, macOS hoặc Linux
 - Trình duyệt web hiện đại (Chrome, Firefox, Safari, Edge)
-- **Không cần cài đặt Node.js hay npm** (dự án không dùng build tools)
 
 ### 2. Clone/Tải Dự Án
 ```bash
@@ -99,31 +98,12 @@ cd web_booking_html
 Dự án không cần cài đặt dependencies! Tất cả file đã có sẵn.
 
 ### 4. Khởi Chạy Web Server
-
-**Option 1: Dùng Python (Nếu cài Python)**
-```bash
-# Python 3.x
-python -m http.server 8000
-
-# Python 2.x
-python -m SimpleHTTPServer 8000
-```
-
-**Option 2: Dùng Node.js (Nếu cài Node.js)**
-```bash
-# Cài http-server nếu chưa có
-npm install -g http-server
-
-# Khởi chạy
-http-server -p 8000
-```
-
-**Option 3: Dùng Live Server trong VS Code**
+**Option 1: Dùng Live Server trong VS Code**
 - Cài extension "Live Server" 
 - Chuột phải vào file `index.html`
 - Chọn "Open with Live Server"
 
-**Option 4: Mở trực tiếp file HTML**
+**Option 2: Mở trực tiếp file HTML**
 ```bash
 # Windows
 start sporthub/index.html
@@ -350,25 +330,3 @@ Sử dụng phương pháp BEM cho CSS:
 - [ ] Gửi email xác nhận đơn đặt
 - [ ] Đánh giá và bình luận sân
 - [ ] Đặt sân theo nhóm
-- [ ] Ứng dụng mobile native
-
----
-
-## 📞 Hỗ Trợ
-
-Nếu gặp vấn đề:
-1. Kiểm tra lại hướng dẫn trên
-2. Xem console (F12) để tìm lỗi
-3. Kiểm tra file `huongdan_phanviec.md` để biết thêm chi tiết
-
----
-
-## 📄 License
-
-Dự án này được tạo cho mục đích học tập và phát triển.
-
----
-
-**Chúc bạn có trải nghiệm tuyệt vời với SportHub Hà Nội! 🎉**
-
-*Cập nhật lần cuối: Tháng 4 năm 2026*
