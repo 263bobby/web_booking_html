@@ -126,7 +126,7 @@ export function createBookingHistoryCard(booking) {
           <button class="bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-lg font-medium text-sm flex-1 md:flex-none transition-colors js-view-detail" data-id="${booking.id || ''}">
             Xem chi tiết
           </button>
-          <button class="bg-emerald-500 text-white hover:bg-emerald-600 px-4 py-2 rounded-lg font-medium text-sm flex-1 md:flex-none transition-colors">
+          <button class="bg-emerald-500 text-white hover:bg-emerald-600 px-4 py-2 rounded-lg font-medium text-sm flex-1 md:flex-none transition-colors js-rebook" data-court-id="${booking.courtId || ''}">
             Đặt lại sân
           </button>
         </div>

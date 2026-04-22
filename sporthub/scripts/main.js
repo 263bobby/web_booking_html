@@ -583,6 +583,7 @@ function initProfile() {
     const mockHistory = [
         {
             id: "m1",
+            courtId: "c1",
             courtName: "Sân Pickleball Cầu Giấy",
             sport: "Pickleball",
             address: "Số 1, Duy Tân, Cầu Giấy, Hà Nội",
@@ -593,6 +594,7 @@ function initProfile() {
         },
         {
             id: "m2",
+            courtId: "c4",
             courtName: "Sân Cầu lông Đống Đa",
             sport: "Cầu lông",
             address: "102 Trường Chinh, Đống Đa, Hà Nội",
@@ -603,6 +605,7 @@ function initProfile() {
         },
         {
             id: "m3",
+            courtId: "c4",
             courtName: "Sân Tennis Ba Đình",
             sport: "Tennis",
             address: "20 Phan Đình Phùng, Ba Đình, Hà Nội",
@@ -613,6 +616,7 @@ function initProfile() {
         },
         {
             id: "m4",
+            courtId: "c8",
             courtName: "Sân Bóng đá Mini Thanh Xuân",
             sport: "Bóng đá",
             address: "Khuất Duy Tiến, Thanh Xuân, Hà Nội",
@@ -767,7 +771,6 @@ function initProfile() {
             `,
             `
             <button class="px-6 py-2 rounded-lg font-bold bg-gray-100 text-gray-700 hover:bg-gray-200" id="modalCloseBtn">Đóng</button>
-            <button class="px-6 py-2 rounded-lg font-bold bg-emerald-500 text-white hover:bg-emerald-600">Tải hóa đơn</button>
             `
         );
 
@@ -788,6 +791,19 @@ function initProfile() {
         document.getElementById("appModal")?.addEventListener("click", (e) => {
             if (e.target.id === "appModal") hideModal();
         });
+    });
+
+    // Rebook logic
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".js-rebook");
+        if (!btn) return;
+
+        const courtId = btn.dataset.courtId;
+        if (courtId) {
+            window.location.href = `./booking.html?id=${courtId}`;
+        } else {
+            showToast("Không tìm thấy thông tin sân để đặt lại");
+        }
     });
 
     const form = document.getElementById("bookingForm");
@@ -815,6 +831,7 @@ function initProfile() {
 
             saveToHistory({
                 id: "b" + Date.now(),
+                courtId: booking.court.id,
                 courtName: booking.court.name,
                 sport: sportLabel,
                 address: booking.court.district,
