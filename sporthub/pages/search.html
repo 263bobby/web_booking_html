@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportHub Ha Noi - Tìm sân</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body data-page="search">
+    <header id="app-nav"></header>
+
+    <main class="container py-12">
+        <div class="search-layout">
+            <!-- Sidebar Filters -->
+            <aside class="filter-sidebar">
+                <div class="filter-header">
+                    <h3>Bộ lọc</h3>
+                    <button class="btn-clear" id="clearFilters">Xóa lọc</button>
+                </div>
+
+                <div class="filter-group">
+                    <label>Tên sân</label>
+                    <input type="text" id="searchInput" placeholder="Tìm theo tên..." class="filter-input">
+                </div>
+
+                <div class="filter-group">
+                    <label>Khu vực</label>
+                    <select id="districtFilter" class="filter-input">
+                        <option value="">Tất cả khu vực</option>
+                        <option value="Quận Cầu Giấy">Cầu Giấy</option>
+                        <option value="Quận Hoàn Kiếm">Hoàn Kiếm</option>
+                        <option value="Quận Đống Đa">Đống Đa</option>
+                        <option value="Quận Ba Đình">Ba Đình</option>
+                        <option value="Quận Hai Bà Trưng">Hai Bà Trưng</option>
+                        <option value="Quận Nam Từ Liêm">Nam Từ Liêm</option>
+                        <option value="Quận Bắc Từ Liêm">Bắc Từ Liêm</option>
+                        <option value="Quận Thanh Xuân">Thanh Xuân</option>
+                        <option value="Quận Tây Hồ">Tây Hồ</option>
+                        <option value="Quận Hoàng Mai">Hoàng Mai</option>
+                        <option value="Quận Long Biên">Long Biên</option>
+                        <option value="Quận Hà Đông">Hà Đông</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Môn thể thao</label>
+                    <div class="checkbox-list">
+                        <label class="filter-checkbox"><input type="checkbox" name="sport" value="Pickleball">
+                            Pickleball</label>
+                        <label class="filter-checkbox"><input type="checkbox" name="sport" value="Cầu lông"> Cầu
+                            lông</label>
+                        <label class="filter-checkbox"><input type="checkbox" name="sport" value="Tennis">
+                            Tennis</label>
+                        <label class="filter-checkbox"><input type="checkbox" name="sport" value="Bóng đá"> Bóng
+                            đá</label>
+                        <label class="filter-checkbox"><input type="checkbox" name="sport" value="Bóng rổ"> Bóng
+                            rổ</label>
+                        <label class="filter-checkbox"><input type="checkbox" name="sport" value="Bóng chuyền"> Bóng
+                            chuyền</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Mức giá</label>
+                    <div class="checkbox-list">
+                        <label class="filter-checkbox"><input type="radio" name="price" value="all" checked> Tất cả mức
+                            giá</label>
+                        <label class="filter-checkbox"><input type="radio" name="price" value="under_100"> Dưới
+                            100.000đ/giờ</label>
+                        <label class="filter-checkbox"><input type="radio" name="price" value="100_200"> 100.000đ -
+                            200.000đ/giờ</label>
+                        <label class="filter-checkbox"><input type="radio" name="price" value="over_200"> Trên
+                            200.000đ/giờ</label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="search-content">
+                <div class="search-content-header">
+                    <h2 class="title" style="margin-bottom: 5px;">Danh sách sân</h2>
+                    <p class="subtitle" style="color: var(--color-muted); margin-bottom: 20px;">Tìm thấy <strong
+                            id="courtCount">0</strong> sân phù hợp</p>
+                </div>
+                
+                <div id="map"></div>
+
+                <div class="cards search-grid" id="searchResults">
+                    <!-- Results injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer"></footer>
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+
+</html>

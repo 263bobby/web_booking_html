@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportHub Hà Nội - Đặt sân</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+
+<body data-page="booking">
+    <header id="app-nav"></header>
+    <main class="container section">
+        <p class="muted" style="margin-bottom: 20px;">Trang chủ / Danh sách sân / <strong
+                id="breadcrumbCourtName">SportHub Arena Quận 1</strong></p>
+
+        <div class="booking-layout-new reveal-up">
+            <div class="booking-left-col">
+                <section class="booking-gallery-section">
+                    <div class="booking-hero">
+                        <img id="bookingHeroImage" alt="Ảnh sân">
+                        <button class="hero-arrow hero-arrow--left" type="button" id="heroPrev">‹</button>
+                        <button class="hero-arrow hero-arrow--right" type="button" id="heroNext">›</button>
+                        <div class="hero-indicators" id="heroIndicators"></div>
+                    </div>
+                    <div class="booking-thumbs" id="bookingThumbs"></div>
+                </section>
+
+                <section class="panel booking-info-section">
+                    <div class="booking-title-row">
+                        <div style="flex: 1;">
+                            <div class="booking-tags">
+                                <span class="badge badge--green">Pickleball</span>
+                                <span class="badge badge--outline">Cầu lông</span>
+                            </div>
+                            <h2 id="detailCourtName" class="court-title-lg">SportHub Arena Quận 1</h2>
+                            <div class="court-meta-info" id="detailMeta">
+                                <span class="meta-item">📍 120 Đinh Tiên Hoàng, Phường Đa Kao, Quận 1</span>
+                                <span class="meta-item">🕒 05:30 - 22:30</span>
+                                <span class="meta-item">⭐ 4.8 (214 đánh giá)</span>
+                            </div>
+                        </div>
+                        <button class="btn btn--outline btn--icon" type="button">♡</button>
+                    </div>
+
+                    <div class="booking-tab-bar" id="bookingTabBar">
+                        <button class="tab-btn is-active" data-tab="booking" type="button">📅 Đặt lịch</button>
+                        <button class="tab-btn" data-tab="info" type="button">ℹ️ Thông tin</button>
+                        <button class="tab-btn" data-tab="reviews" type="button">⭐ Đánh giá (214)</button>
+                    </div>
+
+                    <div class="booking-block" id="blockDate">
+                        <h4 class="block-title">CHỌN NGÀY</h4>
+                        <div class="date-list" id="dateList"></div>
+                    </div>
+
+                    <div class="booking-block" id="blockSubCourt">
+                        <h4 class="block-title">CHỌN SÂN NHỎ</h4>
+                        <div class="subcourt-list" id="subcourtList"></div>
+                    </div>
+
+                    <div class="booking-block" id="blockTime">
+                        <div class="slot-legend muted">
+                            <span><i class="dot dot--free"></i> Trống</span>
+                            <span><i class="dot dot--selected"></i> Đang chọn</span>
+                            <span><i class="dot dot--busy"></i> Đã đặt</span>
+                        </div>
+                        <div class="time-grid-horizontal" id="timeGrid"></div>
+                    </div>
+
+                    <!-- Tab Content: Thông tin -->
+                    <div class="booking-block" id="blockInfo" style="display: none;">
+                        <h4 class="block-title">THÔNG TIN SÂN</h4>
+                        <p style="color: #334155; line-height: 1.6; margin-bottom: 16px;">Sân được thiết kế đạt tiêu
+                            chuẩn quốc tế, trang bị hệ thống chiếu sáng LED chống chói hiện đại, thảm thi đấu êm ái
+                            chống trơn trượt. Không gian thoáng đãng, có khu vực nghỉ ngơi, phòng thay đồ và bãi đỗ xe
+                            rộng rãi.</p>
+                        <ul style="color: #64748b; line-height: 1.8; list-style-position: inside;">
+                            <li>Mở cửa tất cả các ngày trong tuần kể cả Lễ, Tết.</li>
+                            <li>Có dịch vụ cho thuê vợt, bóng và bán nước giải khát.</li>
+                            <li>Hỗ trợ tổ chức giải đấu, có trọng tài.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Tab Content: Đánh giá -->
+                    <div class="booking-block" id="blockReviews" style="display: none;">
+                        <h4 class="block-title" id="reviewsTitle">ĐÁNH GIÁ</h4>
+                        <div class="review-form" id="reviewForm">
+                            <p class="review-form__title">Đánh giá sân này</p>
+                            <div class="star-rating" id="starRating" role="radiogroup" aria-label="Đánh giá sao">
+                                <button class="star-btn" data-value="1" type="button" aria-label="1 sao">☆</button>
+                                <button class="star-btn" data-value="2" type="button" aria-label="2 sao">☆</button>
+                                <button class="star-btn" data-value="3" type="button" aria-label="3 sao">☆</button>
+                                <button class="star-btn" data-value="4" type="button" aria-label="4 sao">☆</button>
+                                <button class="star-btn" data-value="5" type="button" aria-label="5 sao">☆</button>
+                            </div>
+                            <textarea id="reviewComment" rows="3"
+                                placeholder="Chia sẻ trải nghiệm của bạn..."></textarea>
+                            <div class="review-form__actions">
+                                <button class="btn btn--warning" id="submitReview" type="button">Gửi đánh giá</button>
+                            </div>
+                        </div>
+                        <div class="review-list" id="reviewList"></div>
+                    </div>
+
+                    <div class="booking-bottom-bar new-bottom-bar" id="bottomBar">
+                        <div class="bottom-stats">
+                            <div>
+                                <p class="muted">Tổng giờ</p>
+                                <p id="bottomHours" class="highlight-text">0h</p>
+                            </div>
+                            <div>
+                                <p class="muted">Tổng tiền</p>
+                                <p id="bottomTotal" class="highlight-text price-text">0đ</p>
+                            </div>
+                        </div>
+                        <button class="btn btn--warning" id="bottomConfirm" type="button">0 khung giờ đã chọn</button>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="booking-sidebar-col">
+                <div class="panel booking-summary sticky-summary">
+                    <p class="muted">Giá từ</p>
+                    <h3 id="summaryPrice" class="summary-price-title">80.000đ<span class="text-sm">/giờ</span></h3>
+
+                    <div class="summary-details-list">
+                        <div class="summary-row">
+                            <span class="muted">Ngày đặt</span>
+                            <strong id="summaryDate">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span class="muted">Sân</span>
+                            <strong id="summaryCourtName">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span class="muted">Khung giờ</span>
+                            <strong id="summarySlots">0 slot</strong>
+                        </div>
+                    </div>
+
+                    <hr class="summary-divider">
+
+                    <div class="summary-total-row">
+                        <span>Tổng tiền</span>
+                        <strong id="summaryTotal" class="total-price">0đ</strong>
+                    </div>
+
+                    <button class="btn btn--warning btn--full" id="continueBooking" type="button">TIẾP THEO - XÁC
+                        NHẬN</button>
+
+                    <ul class="muted summary-benefits">
+                        <li>✓ Hủy miễn phí trước 24 giờ</li>
+                        <li>✓ Xác nhận tức thì sau khi đặt</li>
+                        <li>✓ Hỗ trợ 24/7 qua hotline</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <footer id="app-footer"></footer>
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+
+</html>

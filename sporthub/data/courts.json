@@ -1,0 +1,459 @@
+[
+    {
+        "id": "c1",
+        "name": "Ace Pickleball Club Cầu Giấy",
+        "district": "Quận Cầu Giấy",
+        "address": "18 Trần Thái Tông, Phường Dịch Vọng Hậu, Quận Cầu Giấy",
+        "sports": [
+            "Pickleball"
+        ],
+        "rating": 4.9,
+        "reviews": 98,
+        "openTime": "06:00",
+        "closeTime": "21:30",
+        "priceFrom": 100000,
+        "featured": true,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "WiFi",
+            "Nước uống"
+        ],
+        "image": "https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c2",
+        "name": "SportHub Arena Hoàn Kiếm",
+        "district": "Quận Hoàn Kiếm",
+        "address": "120 Đinh Tiên Hoàng, Phường Tràng Tiền, Quận Hoàn Kiếm",
+        "sports": [
+            "Pickleball",
+            "Cầu lông"
+        ],
+        "rating": 4.8,
+        "reviews": 214,
+        "openTime": "05:30",
+        "closeTime": "22:30",
+        "priceFrom": 80000,
+        "featured": true,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "WiFi",
+            "Camera an ninh"
+        ],
+        "image": "https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c3",
+        "name": "Champion Tennis Club Đống Đa",
+        "district": "Quận Đống Đa",
+        "address": "72 Thái Hà, Phường Trung Liệt, Quận Đống Đa",
+        "sports": [
+            "Tennis"
+        ],
+        "rating": 4.7,
+        "reviews": 89,
+        "openTime": "06:00",
+        "closeTime": "21:00",
+        "priceFrom": 130000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "Camera an ninh"
+        ],
+        "image": "https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c4",
+        "name": "Green Court Ba Đình",
+        "district": "Quận Ba Đình",
+        "address": "45 Kim Mã, Phường Ngọc Khánh, Quận Ba Đình",
+        "sports": [
+            "Cầu lông",
+            "Tennis"
+        ],
+        "rating": 4.6,
+        "reviews": 178,
+        "openTime": "06:00",
+        "closeTime": "22:00",
+        "priceFrom": 65000,
+        "featured": true,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "WiFi",
+            "Nước uống"
+        ],
+        "image": "https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c5",
+        "name": "ProBadminton Hai Bà Trưng",
+        "district": "Quận Hai Bà Trưng",
+        "address": "95 Đại Cồ Việt, Phường Bách Khoa, Quận Hai Bà Trưng",
+        "sports": [
+            "Cầu lông"
+        ],
+        "rating": 4.6,
+        "reviews": 203,
+        "openTime": "06:00",
+        "closeTime": "22:00",
+        "priceFrom": 55000,
+        "featured": false,
+        "amenities": [
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "Nước uống",
+            "WiFi"
+        ],
+        "image": "https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c6",
+        "name": "FutureField Nam Từ Liêm",
+        "district": "Quận Nam Từ Liêm",
+        "address": "288 Phạm Hùng, Phường Mỹ Đình 1, Quận Nam Từ Liêm",
+        "sports": [
+            "Bóng đá",
+            "Bóng rổ"
+        ],
+        "rating": 4.5,
+        "reviews": 320,
+        "openTime": "05:00",
+        "closeTime": "23:00",
+        "priceFrom": 200000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Căng tin",
+            "Camera an ninh"
+        ],
+        "image": "https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c7",
+        "name": "Sky Sports Bắc Từ Liêm",
+        "district": "Quận Bắc Từ Liêm",
+        "address": "56 Hồ Tùng Mậu, Phường Phú Diễn, Quận Bắc Từ Liêm",
+        "sports": [
+            "Cầu lông",
+            "Pickleball",
+            "Bóng chuyền"
+        ],
+        "rating": 4.4,
+        "reviews": 156,
+        "openTime": "05:30",
+        "closeTime": "22:00",
+        "priceFrom": 60000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "WiFi",
+            "Nước uống",
+            "Camera an ninh"
+        ],
+        "image": "https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c8",
+        "name": "Urban Football Thanh Xuân",
+        "district": "Quận Thanh Xuân",
+        "address": "33 Nguyễn Trãi, Phường Thanh Xuân Trung, Quận Thanh Xuân",
+        "sports": [
+            "Bóng đá"
+        ],
+        "rating": 4.3,
+        "reviews": 412,
+        "openTime": "05:00",
+        "closeTime": "23:30",
+        "priceFrom": 180000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Căng tin",
+            "Nước uống",
+            "Huấn luyện viên"
+        ],
+        "image": "https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c9",
+        "name": "Premier Pickleball Tây Hồ",
+        "district": "Quận Tây Hồ",
+        "address": "12 Xuân Diệu, Phường Quảng An, Quận Tây Hồ",
+        "sports": [
+            "Pickleball"
+        ],
+        "rating": 5.0,
+        "reviews": 97,
+        "openTime": "07:00",
+        "closeTime": "21:30",
+        "priceFrom": 120000,
+        "featured": true,
+        "amenities": [
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "Camera an ninh",
+            "Huấn luyện viên"
+        ],
+        "image": "https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c10",
+        "name": "City Court Hoàng Mai",
+        "district": "Quận Hoàng Mai",
+        "address": "88 Giải Phóng, Phường Giáp Bát, Quận Hoàng Mai",
+        "sports": [
+            "Cầu lông",
+            "Bóng chuyền"
+        ],
+        "rating": 4.4,
+        "reviews": 134,
+        "openTime": "06:00",
+        "closeTime": "22:30",
+        "priceFrom": 70000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "WiFi",
+            "Nước uống"
+        ],
+        "image": "https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c11",
+        "name": "VietSports Long Biên",
+        "district": "Quận Long Biên",
+        "address": "234 Nguyễn Văn Cừ, Phường Bồ Đề, Quận Long Biên",
+        "sports": [
+            "Bóng đá",
+            "Bóng rổ"
+        ],
+        "rating": 4.7,
+        "reviews": 189,
+        "openTime": "05:30",
+        "closeTime": "23:00",
+        "priceFrom": 150000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Căng tin",
+            "Camera an ninh",
+            "Huấn luyện viên"
+        ],
+        "image": "https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c12",
+        "name": "Mega Sport Hà Đông",
+        "district": "Quận Hà Đông",
+        "address": "109 Trần Phú, Phường Văn Quán, Quận Hà Đông",
+        "sports": [
+            "Tennis",
+            "Pickleball"
+        ],
+        "rating": 4.5,
+        "reviews": 102,
+        "openTime": "06:00",
+        "closeTime": "22:00",
+        "priceFrom": 90000,
+        "featured": false,
+        "amenities": [
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "WiFi",
+            "Camera an ninh"
+        ],
+        "image": "https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c13",
+        "name": "Sân cỏ nhân tạo NEU",
+        "district": "Quận Hai Bà Trưng",
+        "address": "207 Giải Phóng, Phường Đồng Tâm, Quận Hai Bà Trưng",
+        "sports": [
+            "Bóng đá"
+        ],
+        "rating": 4.8,
+        "reviews": 452,
+        "openTime": "05:00",
+        "closeTime": "22:30",
+        "priceFrom": 150000,
+        "featured": true,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Căng tin",
+            "Sân 7 người",
+            "Trọng tài"
+        ],
+        "image": "https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c14",
+        "name": "VNU Pickleball & Tennis",
+        "district": "Quận Cầu Giấy",
+        "address": "144 Xuân Thủy, Phường Dịch Vọng Hậu, Quận Cầu Giấy",
+        "sports": [
+            "Pickleball",
+            "Tennis"
+        ],
+        "rating": 4.5,
+        "reviews": 120,
+        "openTime": "06:00",
+        "closeTime": "22:00",
+        "priceFrom": 90000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "WiFi",
+            "Camera an ninh",
+            "Cho thuê vợt"
+        ],
+        "image": "https://images.pexels.com/photos/209977/pexels-photo-209977.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c15",
+        "name": "Sân cầu lông Thanh Xuân",
+        "district": "Quận Thanh Xuân",
+        "address": "11 Khuất Duy Tiến, Phường Thanh Xuân Bắc, Quận Thanh Xuân",
+        "sports": [
+            "Cầu lông"
+        ],
+        "rating": 4.3,
+        "reviews": 85,
+        "openTime": "06:00",
+        "closeTime": "21:30",
+        "priceFrom": 60000,
+        "featured": false,
+        "amenities": [
+            "Phòng thay đồ",
+            "Cho thuê vợt",
+            "WiFi",
+            "Thảm chống trượt"
+        ],
+        "image": "https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c16",
+        "name": "Sân bóng cỏ nhân tạo Thủy Lợi",
+        "district": "Quận Đống Đa",
+        "address": "175 Tây Sơn, Phường Trung Liệt, Quận Đống Đa",
+        "sports": [
+            "Bóng đá"
+        ],
+        "rating": 4.7,
+        "reviews": 512,
+        "openTime": "05:30",
+        "closeTime": "23:00",
+        "priceFrom": 160000,
+        "featured": true,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Phòng thay đồ",
+            "Cho thuê giày",
+            "Nước uống",
+            "Sân 7 người"
+        ],
+        "image": "https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c17",
+        "name": "Mỹ Đình Sport Complex",
+        "district": "Quận Nam Từ Liêm",
+        "address": "Đường Lê Đức Thọ, Phường Mỹ Đình 1, Quận Nam Từ Liêm",
+        "sports": [
+            "Bóng đá",
+            "Tennis",
+            "Bóng rổ"
+        ],
+        "rating": 4.9,
+        "reviews": 890,
+        "openTime": "05:00",
+        "closeTime": "23:30",
+        "priceFrom": 250000,
+        "featured": true,
+        "amenities": [
+            "Bãi đỗ xe rộng",
+            "Phòng thay đồ VIP",
+            "Căng tin",
+            "Khán đài"
+        ],
+        "image": "https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c18",
+        "name": "Hồ Tây Paddle & Pickleball",
+        "district": "Quận Tây Hồ",
+        "address": "Đường Vệ Hồ, Phường Xuân La, Quận Tây Hồ",
+        "sports": [
+            "Pickleball"
+        ],
+        "rating": 4.7,
+        "reviews": 210,
+        "openTime": "06:30",
+        "closeTime": "21:00",
+        "priceFrom": 110000,
+        "featured": false,
+        "amenities": [
+            "View hồ",
+            "Phòng thay đồ",
+            "Quán cafe",
+            "WiFi"
+        ],
+        "image": "https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c19",
+        "name": "Sân bóng rổ Đền Lừ",
+        "district": "Quận Hoàng Mai",
+        "address": "Khu đô thị Đền Lừ, Phường Hoàng Văn Thụ, Quận Hoàng Mai",
+        "sports": [
+            "Bóng rổ"
+        ],
+        "rating": 4.4,
+        "reviews": 76,
+        "openTime": "06:00",
+        "closeTime": "22:00",
+        "priceFrom": 50000,
+        "featured": false,
+        "amenities": [
+            "Bãi đỗ xe",
+            "Nước uống",
+            "Chiếu sáng ban đêm"
+        ],
+        "image": "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "id": "c20",
+        "name": "Nhà thi đấu Quán Thánh",
+        "district": "Quận Ba Đình",
+        "address": "115 Quán Thánh, Phường Quán Thánh, Quận Ba Đình",
+        "sports": [
+            "Cầu lông",
+            "Bóng chuyền"
+        ],
+        "rating": 4.6,
+        "reviews": 154,
+        "openTime": "05:30",
+        "closeTime": "22:00",
+        "priceFrom": 80000,
+        "featured": true,
+        "amenities": [
+            "Sàn gỗ trong nhà",
+            "Phòng thay đồ",
+            "Điều hòa",
+            "Cho thuê bóng/vợt"
+        ],
+        "image": "https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=600"
+    }
+]
