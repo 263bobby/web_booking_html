@@ -3,7 +3,7 @@ import { renderFooter } from "../components/Footer.js";
 import { renderCourtCard } from "../components/CourtCard.js";
 import { showToast } from "../components/Toast.js";
 import { getCurrentPage, goToProfile } from "./router.js";
-import { getBooking, saveBooking, saveToHistory, getHistory } from "./store.js";
+import { getBooking, saveBooking, saveToHistory, getHistory, saveBookedSlots, getBookedSlots } from "./store.js";
 import { 
     renderHistoryStats, 
     renderHistoryFilters, 
@@ -178,21 +178,7 @@ function initBooking(config, courts) {
     // 2. Generate timeline from 06:00 to 22:00
     const slotTimeline = Array.from({ length: 17 }, (_, i) => `${String(i + 6).padStart(2, "0")}:00`);
 
-    // Dynamic busy slots function
-    function getBusySlots() {
-        const seed = (activeDate + 1) * (activeSubCourt + 1) * court.id.charCodeAt(0);
-        const busy = new Set();
-        // Deterministically mock 3-5 busy slots
-        const count = (seed % 3) + 3;
-        for (let i = 0; i < count; i++) {
-            const slotIndex = (seed * (i + 2)) % slotTimeline.length;
-            busy.add(slotTimeline[slotIndex]);
-        }
-        return busy;
-    }
-
-    let busySlots = getBusySlots();
-
+    // Dates and subCourts used in getBusySlots
     const dates = ["21", "22", "23", "24", "25", "26", "27"];
     const subCourts = court.sports.includes("Pickleball")
         ? [
@@ -204,6 +190,35 @@ function initBooking(config, courts) {
             { id: "D", label: "Sân 1", multiplier: 1 },
             { id: "E", label: "Sân 2", multiplier: 1.1 }
         ];
+
+    // Dynamic busy slots function
+    function getBusySlots() {
+        const seed = (activeDate + 1) * (activeSubCourt + 1) * court.id.charCodeAt(0);
+        const busy = new Set();
+        // Deterministically mock 3-5 busy slots
+        const count = (seed % 3) + 3;
+        for (let i = 0; i < count; i++) {
+            const slotIndex = (seed * (i + 2)) % slotTimeline.length;
+            busy.add(slotTimeline[slotIndex]);
+        }
+        
+        // Add previously booked slots from localStorage
+        const dateStr = `2026-04-${dates[activeDate]}`;
+        const subcourtId = subCourts[activeSubCourt].id;
+        const bookedSlots = getBookedSlots(court.id, dateStr, subcourtId);
+        
+        if (bookedSlots && typeof bookedSlots === 'object') {
+            if (Array.isArray(bookedSlots)) {
+                bookedSlots.forEach(slot => busy.add(slot));
+            } else {
+                Object.keys(bookedSlots).forEach(slot => busy.add(slot));
+            }
+        }
+        
+        return busy;
+    }
+
+    let busySlots = getBusySlots();
 
     const heroImage = document.getElementById("bookingHeroImage");
     const thumbs = document.getElementById("bookingThumbs");
@@ -454,10 +469,16 @@ function initBooking(config, courts) {
         }
         const currentSelectedCourt = court;
         const slotText = [...selectedSlots].join(", ");
+        
+        // Save booked slots to prevent re-booking
+        const dateStr = `2026-04-${dates[activeDate]}`;
+        const subcourtId = subCourts[activeSubCourt].id;
+        saveBookedSlots(court.id, dateStr, subcourtId, Array.from(selectedSlots));
+        
         saveBooking({
             court: { ...currentSelectedCourt, name: `${currentSelectedCourt.name} - ${subCourts[activeSubCourt].label}` },
             slot: slotText,
-            date: `2026-04-${dates[activeDate]}`
+            date: dateStr
         });
         window.location.href = "./profile.html";
     }
@@ -568,6 +589,8 @@ function initProfile() {
                 </div>
             </div>
         `;
+        // Clear the booking after displaying to prevent duplicates on refresh
+        saveBooking(null);
     } else {
         activeContainer.classList.add("hidden");
     }
@@ -820,6 +843,11 @@ function initProfile() {
             }
             if (!/^0\d{9}$/.test(phone)) {
                 err.textContent = "Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).";
+                return;
+            }
+            const email = document.getElementById("email").value.trim();
+            if (email && !email.endsWith("@gmail.com")) {
+                err.textContent = "Email phải kết thúc bằng @gmail.com.";
                 return;
             }
             err.textContent = "";
