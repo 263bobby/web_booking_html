@@ -1,6 +1,6 @@
 export function renderHistoryStats(stats = { total: 0, completed: 0, cancelled: 0 }) {
   return `
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
       <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
         <p class="text-sm text-gray-500 mb-1">Tổng số đơn</p>
         <h3 class="text-2xl font-bold text-gray-900" id="statTotal">${stats.total}</h3>

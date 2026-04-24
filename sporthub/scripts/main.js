@@ -1024,25 +1024,28 @@ function initSearch(config, courts) {
         const selectedPrice = document.querySelector('input[name="price"]:checked').value;
 
         const filtered = courts.filter(court => {
-            // Keyword match (name or address)
-            if (keyword && !court.name.toLowerCase().includes(keyword) && !(court.address || "").toLowerCase().includes(keyword)) return false;
+            const matchKeyword =
+                !keyword ||
+                court.name.toLowerCase().includes(keyword) ||
+                (court.address || "").toLowerCase().includes(keyword);
 
-            // District match
-            if (district && court.district !== district) return false;
+            const matchDistrict = !district || court.district === district;
 
-            // Sport match
-            if (selectedSports.length > 0) {
-                const courtSports = court.sports || [court.sport];
-                if (!courtSports.some(s => selectedSports.includes(s))) return false;
-            }
+            const courtSports = court.sports || [court.sport].filter(Boolean);
+            const matchSport =
+                selectedSports.length === 0 ||
+                courtSports.some((s) => selectedSports.includes(s));
 
-            // Price match
             const price = court.priceFrom || court.pricePerHour || 0;
-            if (selectedPrice === 'under_100' && price >= 100000) return false;
-            if (selectedPrice === '100_200' && (price < 100000 || price > 200000)) return false;
-            if (selectedPrice === 'over_200' && price <= 200000) return false;
+            const matchPrice =
+                selectedPrice === 'all' ||
+                (selectedPrice === 'under_100' && price < 100000) ||
+                (selectedPrice === '100_200' && price >= 100000 && price <= 200000) ||
+                (selectedPrice === 'over_200' && price > 200000);
 
-            return true;
+            // 2 AND + 1 OR: keyword, district và price phải thỏa mãn;
+            // thể thao nhiều lựa chọn là OR trong chính nó.
+            return matchKeyword && matchDistrict && matchSport && matchPrice;
         });
 
         render(filtered);
