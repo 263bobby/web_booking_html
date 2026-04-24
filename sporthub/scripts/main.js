@@ -989,10 +989,11 @@ function initSearch(config, courts) {
         if (!markersLayer) return;
         markersLayer.clearLayers();
         filteredData.forEach(court => {
-            // Mock coordinates
-            const lat = 21.0285 + (Math.random() - 0.5) * 0.1;
-            const lng = 105.8542 + (Math.random() - 0.5) * 0.1;
-            const marker = L.marker([lat, lng]);
+            if (!court.lat || !court.lng) {
+                console.warn("[Thiếu tọa độ] Sân: " + court.name);
+                return;
+            }
+            const marker = L.marker([court.lat, court.lng]);
             marker.bindPopup(`
                 <div class="map-popup-card">
                     <h4>${court.name}</h4>
