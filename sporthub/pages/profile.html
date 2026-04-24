@@ -36,7 +36,7 @@
 
 <body data-page="profile">
     <header id="app-nav"></header>
-    
+
     <main class="container mx-auto px-4 py-8">
         <!-- Section for active booking (if any) -->
         <div id="activeBookingContainer" class="mb-12 hidden">
@@ -47,16 +47,22 @@
                         <h3 class="text-lg font-bold mb-4">Thông tin người đặt</h3>
                         <form id="bookingForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
-                                <input id="fullName" name="fullName" placeholder="Họ và tên" class="w-full rounded-xl border-gray-200 p-3" required>
+                                <input id="fullName" name="fullName" placeholder="Họ và tên"
+                                    class="w-full rounded-xl border-gray-200 p-3" required>
                             </div>
-                            <input id="phone" name="phone" type="tel" placeholder="Số điện thoại" class="w-full rounded-xl border-gray-200 p-3" required>
-                            <input id="email" name="email" type="email" placeholder="Email (không bắt buộc)" class="w-full rounded-xl border-gray-200 p-3">
+                            <input id="phone" name="phone" type="tel" placeholder="Số điện thoại"
+                                class="w-full rounded-xl border-gray-200 p-3" required>
+                            <input id="email" name="email" type="email" placeholder="Email (không bắt buộc)"
+                                class="w-full rounded-xl border-gray-200 p-3">
                             <div class="md:col-span-2">
-                                <textarea id="note" rows="3" placeholder="Ghi chú thêm..." class="w-full rounded-xl border-gray-200 p-3"></textarea>
+                                <textarea id="note" rows="3" placeholder="Ghi chú thêm..."
+                                    class="w-full rounded-xl border-gray-200 p-3"></textarea>
                             </div>
                             <div class="error text-red-500 text-sm" id="formError"></div>
                             <div class="md:col-span-2">
-                                <button class="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100" type="submit">
+                                <button
+                                    class="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
+                                    type="submit">
                                     Xác nhận và đặt sân
                                 </button>
                             </div>

@@ -3,7 +3,7 @@ import { renderFooter } from "../components/Footer.js";
 import { renderCourtCard } from "../components/CourtCard.js";
 import { showToast } from "../components/Toast.js";
 import { getCurrentPage, goToProfile } from "./router.js";
-import { getBooking, saveBooking, saveToHistory, getHistory } from "./store.js";
+import { getBooking, saveBooking, saveToHistory, getHistory, saveBookedSlots, getBookedSlots } from "./store.js";
 import { 
     renderHistoryStats, 
     renderHistoryFilters, 
@@ -165,11 +165,51 @@ function initBooking(config, courts) {
     const foundCourt = courts.find(c => c.id === courtId);
     const court = foundCourt ? foundCourt : courts[0];
 
-    const gallery = [
-        court.image || "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1554068865-24cecd4e34f8?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1200&q=80"
+    // Gallery: 3 sport-specific photos per sport type
+    const sportType = (court.sports && court.sports[0]) || "Tennis";
+    const sportGalleries = {
+        "Pickleball": [
+            "https://images.unsplash.com/photo-1554068865-24cecd4e34f8?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Tennis": [
+            "https://images.unsplash.com/photo-1545809027-1b44e55b5a38?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Cầu lông": [
+            "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1659203073213-57c6b26524b6?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Bóng đá": [
+            "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Bóng rổ": [
+            "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?auto=format&fit=crop&w=1200&q=80"
+        ],
+        "Bóng chuyền": [
+            "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=1200&q=80"
+        ]
+    };
+    // Default fallback gallery (indoor sport facility)
+    const defaultGallery = [
+        "https://images.unsplash.com/photo-1545809027-1b44e55b5a38?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1200&q=80"
     ];
+    const galleryBase = sportGalleries[sportType] || defaultGallery;
+    // If the court has its own image, use it as the hero (slot 0), keep rest sport-specific
+    const gallery = court.image
+        ? [court.image, galleryBase[1], galleryBase[2]]
+        : galleryBase;
     let imageIndex = 0;
     let activeDate = 0;
     let activeSubCourt = 0;
@@ -178,21 +218,7 @@ function initBooking(config, courts) {
     // 2. Generate timeline from 06:00 to 22:00
     const slotTimeline = Array.from({ length: 17 }, (_, i) => `${String(i + 6).padStart(2, "0")}:00`);
 
-    // Dynamic busy slots function
-    function getBusySlots() {
-        const seed = (activeDate + 1) * (activeSubCourt + 1) * court.id.charCodeAt(0);
-        const busy = new Set();
-        // Deterministically mock 3-5 busy slots
-        const count = (seed % 3) + 3;
-        for (let i = 0; i < count; i++) {
-            const slotIndex = (seed * (i + 2)) % slotTimeline.length;
-            busy.add(slotTimeline[slotIndex]);
-        }
-        return busy;
-    }
-
-    let busySlots = getBusySlots();
-
+    // Dates and subCourts used in getBusySlots
     const dates = ["21", "22", "23", "24", "25", "26", "27"];
     const subCourts = court.sports.includes("Pickleball")
         ? [
@@ -204,6 +230,35 @@ function initBooking(config, courts) {
             { id: "D", label: "Sân 1", multiplier: 1 },
             { id: "E", label: "Sân 2", multiplier: 1.1 }
         ];
+
+    // Dynamic busy slots function
+    function getBusySlots() {
+        const seed = (activeDate + 1) * (activeSubCourt + 1) * court.id.charCodeAt(0);
+        const busy = new Set();
+        // Deterministically mock 3-5 busy slots
+        const count = (seed % 3) + 3;
+        for (let i = 0; i < count; i++) {
+            const slotIndex = (seed * (i + 2)) % slotTimeline.length;
+            busy.add(slotTimeline[slotIndex]);
+        }
+        
+        // Add previously booked slots from localStorage
+        const dateStr = `2026-04-${dates[activeDate]}`;
+        const subcourtId = subCourts[activeSubCourt].id;
+        const bookedSlots = getBookedSlots(court.id, dateStr, subcourtId);
+        
+        if (bookedSlots && typeof bookedSlots === 'object') {
+            if (Array.isArray(bookedSlots)) {
+                bookedSlots.forEach(slot => busy.add(slot));
+            } else {
+                Object.keys(bookedSlots).forEach(slot => busy.add(slot));
+            }
+        }
+        
+        return busy;
+    }
+
+    let busySlots = getBusySlots();
 
     const heroImage = document.getElementById("bookingHeroImage");
     const thumbs = document.getElementById("bookingThumbs");
@@ -454,10 +509,16 @@ function initBooking(config, courts) {
         }
         const currentSelectedCourt = court;
         const slotText = [...selectedSlots].join(", ");
+        
+        // Save booked slots to prevent re-booking
+        const dateStr = `2026-04-${dates[activeDate]}`;
+        const subcourtId = subCourts[activeSubCourt].id;
+        saveBookedSlots(court.id, dateStr, subcourtId, Array.from(selectedSlots));
+        
         saveBooking({
             court: { ...currentSelectedCourt, name: `${currentSelectedCourt.name} - ${subCourts[activeSubCourt].label}` },
             slot: slotText,
-            date: `2026-04-${dates[activeDate]}`
+            date: dateStr
         });
         window.location.href = "./profile.html";
     }
@@ -568,6 +629,8 @@ function initProfile() {
                 </div>
             </div>
         `;
+        // Clear the booking after displaying to prevent duplicates on refresh
+        saveBooking(null);
     } else {
         activeContainer.classList.add("hidden");
     }
@@ -822,6 +885,11 @@ function initProfile() {
                 err.textContent = "Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).";
                 return;
             }
+            const email = document.getElementById("email").value.trim();
+            if (email && !email.endsWith("@gmail.com")) {
+                err.textContent = "Email phải kết thúc bằng @gmail.com.";
+                return;
+            }
             err.textContent = "";
             
             // Add to history
@@ -898,19 +966,34 @@ function initSearch(config, courts) {
         markersLayer = L.layerGroup().addTo(map);
     }
 
-    // Artificial delay to show skeleton effect
+    // Apply URL params BEFORE the timeout so filters are set when skeleton resolves
+    const urlParams = new URLSearchParams(window.location.search);
+    const qParam = urlParams.get('q');
+    const sportParam = urlParams.get('sport');
+
+    if (qParam) searchInput.value = qParam;
+    if (sportParam) {
+        sportFilters.forEach(cb => {
+            if (cb.value === sportParam) cb.checked = true;
+        });
+    }
+
+    // Artificial delay to show skeleton effect.
+    // filterCourts() reads the checkboxes/inputs that are already set above,
+    // so URL param filters (e.g. ?sport=Tennis) are always respected.
     setTimeout(() => {
-        render(courts);
+        filterCourts();
     }, 1000);
 
     function updateMarkers(filteredData) {
         if (!markersLayer) return;
         markersLayer.clearLayers();
         filteredData.forEach(court => {
-            // Mock coordinates
-            const lat = 21.0285 + (Math.random() - 0.5) * 0.1;
-            const lng = 105.8542 + (Math.random() - 0.5) * 0.1;
-            const marker = L.marker([lat, lng]);
+            if (!court.lat || !court.lng) {
+                console.warn("[Thiếu tọa độ] Sân: " + court.name);
+                return;
+            }
+            const marker = L.marker([court.lat, court.lng]);
             marker.bindPopup(`
                 <div class="map-popup-card">
                     <h4>${court.name}</h4>
@@ -978,23 +1061,7 @@ function initSearch(config, courts) {
         filterCourts();
     });
 
-    // Initial render
-    const urlParams = new URLSearchParams(window.location.search);
-    const qParam = urlParams.get('q');
-    const sportParam = urlParams.get('sport');
-
-    if (qParam) searchInput.value = qParam;
-    if (sportParam) {
-        sportFilters.forEach(cb => {
-            if (cb.value === sportParam) cb.checked = true;
-        });
-    }
-
-    if (qParam || sportParam) {
-        filterCourts();
-    } else {
-        render(courts);
-    }
+    // URL params and initial render are handled by the setTimeout above.
 }
 
 function bindRevealAnimations() {
